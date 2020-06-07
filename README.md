@@ -1,3 +1,5 @@
 # Simple-expandableListView
-ExpandableListView
-Very simple expandableListView that has basic functionality. It is usefull example for your projects whick include expandable list.
+
+Very simple ExpandableListView that has basic functionality. It is usefull example for your projects which include expandable list.
+
+This repository is updated version of https://github.com/eddydn/ExpandableListView. 
