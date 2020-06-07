@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- expandable list color -->
+    <color name="colorPrimary">#CFC6C6</color>
+    <!-- toolbar color -->
+    <color name="colorPrimaryDark">#808080</color>
+    <!--  colorAccent  -->
+    <color name="colorAccent">#FFFFFF</color>
+</resources>
