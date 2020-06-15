@@ -3,13 +3,9 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="55dip">
 
-    <TextView
-        android:id="@+id/lblListItem"
-        android:textSize="16dip"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
+    <ExpandableListView
+        android:id="@+id/lblListItem1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

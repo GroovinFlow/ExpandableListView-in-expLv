@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
         ExpandableListView listView = (ExpandableListView) findViewById(R.id.lvExp);
         initData();
+
         ExpandableListAdapter listAdapter = new ExpandableListAdapter(this, listDataHeader, listHashMap);
         listView.setAdapter(listAdapter);
     }
@@ -37,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
         List<String> list2 = new ArrayList<>();
         list2.add("L2 Expandable item 1");
-        list2.add("L2 Expandable item 2");
 
         List<String> list3 = new ArrayList<>();
         list3.add("L3 Expandable item 1");
