@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<String> listDataHeader;
     private HashMap<String,List<String>> listHashMap;
-    private ArrayList<String> recipients;
 
     public ExpandableListAdapter(Context context, List<String> listDataHeader, HashMap<String, List<String>> listHashMap) {
         this.context = context;
@@ -72,42 +72,87 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             LayoutInflater inflater = (LayoutInflater)this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.list_group,null);
         }
-        TextView lblListHeader = (TextView)view.findViewById(R.id.lblListHeader);
-        lblListHeader.setTypeface(null, Typeface.BOLD);
+        TextView lblListHeader = (TextView)view.findViewById(R.id.lblListHeader1);
         lblListHeader.setText(headerTitle);
         return view;
     }
 
     @Override
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
-        final String childText = (String)getChild(i,i1);
+        String childTitle = (String)getChild(i, i1);
         if(view == null)
         {
             LayoutInflater inflater = (LayoutInflater)this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.list_item,null);
         }
-
-        ExpandableListView txtListChild = (ExpandableListView) view.findViewById(R.id.lblListItem1);
-        ExpandableListAdapterTextView listAdapter = new ExpandableListAdapterTextView(context, listDataHeader, listHashMap);
-        txtListChild.setAdapter(listAdapter);
-        listDataHeader = new ArrayList<>();
-        listHashMap = new HashMap<>();
-        listDataHeader.add("Title 1");
-        listDataHeader.add("Title 2");
-        listDataHeader.add("Title 3");
-        List<String> list1 = new ArrayList<>();
+        List<String> listDataHeader2;
+        HashMap<String, List<String>> listHashMap2;
+        final ExpandableListView listView = (ExpandableListView) view.findViewById(R.id.lblListItem1);
+        listDataHeader2 = new ArrayList<>();
+        listHashMap2 = new HashMap<>();
+        listDataHeader2.add(childTitle);
+        final List<String> list1 = new ArrayList<>();
         list1.add("L1 Expandable item 1");
-        List<String> list2 = new ArrayList<>();
-        list2.add("L2 Expandable item 1");
-        list2.add("L2 Expandable item 2");
-        List<String> list3 = new ArrayList<>();
-        list3.add("L3 Expandable item 1");
-        list3.add("L3 Expandable item 2");
-        list3.add("L3 Expandable item 3");
-        listHashMap.put(listDataHeader.get(0),list1);
-        listHashMap.put(listDataHeader.get(1),list2);
-        listHashMap.put(listDataHeader.get(2),list3);
+        list1.add("L1 Expandable item 1");
+        list1.add("L1 Expandable item 1");
+        listHashMap2.put(listDataHeader2.get(0),list1);
+        ExpandableListAdapterTextView listAdapter = new ExpandableListAdapterTextView(context, listDataHeader2, listHashMap2);
+        listView.setAdapter(listAdapter);
+        resetExpandableListViewHeight(listView, getChildrenCount(i));
+        // on click listener
+        listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
+                setExpandableListViewHeight(expandableListView, i);
+                return false;
+            }
+        });
+
         return view;
+    }
+
+    private void setExpandableListViewHeight(ExpandableListView listView, int group) {
+        android.widget.ExpandableListAdapter listAdapter = (android.widget.ExpandableListAdapter) listView.getExpandableListAdapter();
+        int totalHeight = 0;
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(),
+                View.MeasureSpec.EXACTLY);
+        for (int i = 0; i < listAdapter.getGroupCount(); i++) {
+            View groupItem = listAdapter.getGroupView(i, false, null, listView);
+            groupItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+
+            totalHeight += groupItem.getMeasuredHeight();
+
+            if (((listView.isGroupExpanded(i)) && (i != group))
+                    || ((!listView.isGroupExpanded(i)) && (i == group))) {
+                for (int j = 0; j < listAdapter.getChildrenCount(i); j++) {
+                    View listItem = listAdapter.getChildView(i, j, false, null,
+                            listView);
+                    listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+
+                    totalHeight += listItem.getMeasuredHeight();
+
+                }
+            }
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        int height = totalHeight
+                + (listView.getDividerHeight() * (listAdapter.getGroupCount() - 1));
+        if (height < 10){
+            height = 200;
+        }
+        params.height = height;
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+
+    }
+    private void resetExpandableListViewHeight(ExpandableListView listView, int childCount) {
+        android.widget.ExpandableListAdapter listAdapter = (android.widget.ExpandableListAdapter) listView.getExpandableListAdapter();
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        int height = 40*childCount;
+        params.height = height;
+        listView.setLayoutParams(params);
+        listView.requestLayout();
     }
 
     @Override

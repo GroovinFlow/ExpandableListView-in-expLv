@@ -1,6 +1,9 @@
 package com.example.simpleexpandablelistview;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,10 +21,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ExpandableListView listView = (ExpandableListView) findViewById(R.id.lvExp);
-        initData();
+        SQL_database sql_database = new SQL_database(this);
+        sql_database.deleteItemOpened();
 
-        ExpandableListAdapter listAdapter = new ExpandableListAdapter(this, listDataHeader, listHashMap);
+        final ExpandableListView listView = (ExpandableListView) findViewById(R.id.lvExp);
+        initData();
+        final ExpandableListAdapter listAdapter = new ExpandableListAdapter(this, listDataHeader, listHashMap);
         listView.setAdapter(listAdapter);
     }
 
@@ -29,23 +34,12 @@ public class MainActivity extends AppCompatActivity {
         listDataHeader = new ArrayList<>();
         listHashMap = new HashMap<>();
 
-        listDataHeader.add("Title 1");
-        listDataHeader.add("Title 2");
-        listDataHeader.add("Title 3");
-
+        listDataHeader.add("Header 1");
         List<String> list1 = new ArrayList<>();
-        list1.add("L1 Expandable item 1");
-
-        List<String> list2 = new ArrayList<>();
-        list2.add("L2 Expandable item 1");
-
-        List<String> list3 = new ArrayList<>();
-        list3.add("L3 Expandable item 1");
-        list3.add("L3 Expandable item 2");
-        list3.add("L3 Expandable item 3");
+        list1.add("title1");
+        list1.add("title2");
+        list1.add("title3");
 
         listHashMap.put(listDataHeader.get(0),list1);
-        listHashMap.put(listDataHeader.get(1),list2);
-        listHashMap.put(listDataHeader.get(2),list3);
     }
 }
