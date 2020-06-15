@@ -1,4 +1,4 @@
-# ExpandableListView inside expLv
+# ExpandableListView inside expandableListView
 
 Very simple ExpandableListView in ExpandableListView example that has basic functionality. 
 
