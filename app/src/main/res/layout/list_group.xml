@@ -12,6 +12,7 @@
         android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
         android:textSize="16dp"
         android:textColor="@android:color/black"
+        android:overScrollMode="never"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

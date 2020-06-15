@@ -21,9 +21,9 @@ import java.util.List;
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<String> listDataHeader;
-    private HashMap<String,List<String>> listHashMap;
+    private HashMap<String,List<Object_expLvItem>> listHashMap;
 
-    public ExpandableListAdapter(Context context, List<String> listDataHeader, HashMap<String, List<String>> listHashMap) {
+    public ExpandableListAdapter(Context context, List<String> listDataHeader, HashMap<String, List<Object_expLvItem>> listHashMap) {
         this.context = context;
         this.listDataHeader = listDataHeader;
         this.listHashMap = listHashMap;
@@ -73,13 +73,15 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             view = inflater.inflate(R.layout.list_group,null);
         }
         TextView lblListHeader = (TextView)view.findViewById(R.id.lblListHeader1);
+        // --- BOLD TEXT STYLE --- //
+        // lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
         return view;
     }
 
     @Override
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
-        String childTitle = (String)getChild(i, i1);
+        Object_expLvItem child = (Object_expLvItem) getChild(i, i1);
         if(view == null)
         {
             LayoutInflater inflater = (LayoutInflater)this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -90,11 +92,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         final ExpandableListView listView = (ExpandableListView) view.findViewById(R.id.lblListItem1);
         listDataHeader2 = new ArrayList<>();
         listHashMap2 = new HashMap<>();
-        listDataHeader2.add(childTitle);
-        final List<String> list1 = new ArrayList<>();
-        list1.add("L1 Expandable item 1");
-        list1.add("L1 Expandable item 1");
-        list1.add("L1 Expandable item 1");
+        listDataHeader2.add(child.getTitle());
+        final List<String> list1 = child.getItems();
         listHashMap2.put(listDataHeader2.get(0),list1);
         ExpandableListAdapterTextView listAdapter = new ExpandableListAdapterTextView(context, listDataHeader2, listHashMap2);
         listView.setAdapter(listAdapter);

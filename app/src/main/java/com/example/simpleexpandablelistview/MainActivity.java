@@ -11,18 +11,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     private List<String> listDataHeader;
-    private HashMap<String,List<String>> listHashMap;
+    private HashMap<String,List<Object_expLvItem>> listHashMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        SQL_database sql_database = new SQL_database(this);
-        sql_database.deleteItemOpened();
 
         final ExpandableListView listView = (ExpandableListView) findViewById(R.id.lvExp);
         initData();
@@ -35,10 +33,24 @@ public class MainActivity extends AppCompatActivity {
         listHashMap = new HashMap<>();
 
         listDataHeader.add("Header 1");
-        List<String> list1 = new ArrayList<>();
-        list1.add("title1");
-        list1.add("title2");
-        list1.add("title3");
+        List<Object_expLvItem> list1 = new ArrayList<>();
+        // arrayLists
+        ArrayList<String> arrayListI1 = new ArrayList<>();
+        ArrayList<String> arrayListI2 = new ArrayList<>();
+        ArrayList<String> arrayListI3 = new ArrayList<>();
+        arrayListI1.add("t1_Item1");
+        arrayListI1.add("t1_Item2");
+        arrayListI1.add("t1_Item3");
+        arrayListI2.add("t2_Item1");
+        arrayListI2.add("t2_Item2");
+        arrayListI2.add("t2_Item3");
+        arrayListI3.add("t3_Item1");
+        arrayListI3.add("t3_Item2");
+        arrayListI3.add("t3_Item3");
+        // adding
+        list1.add(new Object_expLvItem("title1", arrayListI1));
+        list1.add(new Object_expLvItem("title2", arrayListI2));
+        list1.add(new Object_expLvItem("title3", arrayListI3));
 
         listHashMap.put(listDataHeader.get(0),list1);
     }
